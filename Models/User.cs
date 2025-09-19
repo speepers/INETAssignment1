@@ -7,6 +7,6 @@
         public string password { get; set; } = string.Empty;
         public string email { get; set; } = string.Empty;
         public string phoneNumber { get; set; } = string.Empty;
-        public Ticket? purchasedTickets { get; set; }
+        public List<Ticket>? purchasedTickets { get; set; }
     }
 }
