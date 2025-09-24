@@ -10,6 +10,5 @@
         public List<Band>? supportingBands { get; set; }
         public Location? concertLocation {  get; set; }
         public DateTime concertTime {  get; set; }
-        public List<Ticket>? Tickets { get; set; }
     }
 }
