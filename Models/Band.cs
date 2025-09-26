@@ -5,8 +5,7 @@
         public int bandID { get; set; }
         public string bandName { get; set; } = string.Empty;
         public string bandDescription { get; set; } = string.Empty;
-
-        public int genreID { get; set; }           // foreign key
-        public Genre? genre { get; set; }         // navigation property
+        public int genreID { get; set; }
+        public Genre? genre { get; set; }
     }
 }
