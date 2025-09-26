@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using INETAssignment1.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<INETAssignment1Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("INETAssignment1Context") ?? throw new InvalidOperationException("Connection string 'INETAssignment1Context' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

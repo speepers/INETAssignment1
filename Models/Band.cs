@@ -2,9 +2,11 @@
 {
     public class Band
     {
-        public int bandID {  get; set; }
+        public int bandID { get; set; }
         public string bandName { get; set; } = string.Empty;
         public string bandDescription { get; set; } = string.Empty;
-        public List<Genre>? genres { get; set; }
+
+        public int genreID { get; set; }           // foreign key
+        public Genre? genre { get; set; }         // navigation property
     }
 }
