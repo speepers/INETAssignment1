@@ -22,7 +22,8 @@ namespace INETAssignment1.Controllers
         // GET: Concerts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Concert.ToListAsync());
+            var iNETAssignment1Context = _context.Concert.Include(c => c.concertLocation).Include(c => c.headliningBand);
+            return View(await iNETAssignment1Context.ToListAsync());
         }
 
         // GET: Concerts/Details/5
@@ -34,6 +35,8 @@ namespace INETAssignment1.Controllers
             }
 
             var concert = await _context.Concert
+                .Include(c => c.concertLocation)
+                .Include(c => c.headliningBand)
                 .FirstOrDefaultAsync(m => m.concertID == id);
             if (concert == null)
             {
@@ -46,6 +49,8 @@ namespace INETAssignment1.Controllers
         // GET: Concerts/Create
         public IActionResult Create()
         {
+            ViewData["locationID"] = new SelectList(_context.Location, "locationID", "locationName");
+            ViewData["bandID"] = new SelectList(_context.Band, "bandID", "bandName");
             return View();
         }
 
@@ -54,7 +59,7 @@ namespace INETAssignment1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("concertID,concertName,tourName,concertTime")] Concert concert)
+        public async Task<IActionResult> Create([Bind("concertID,concertName,tourName,bandID,locationID,concertTime")] Concert concert)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +67,8 @@ namespace INETAssignment1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["locationID"] = new SelectList(_context.Location, "locationID", "locationName", concert.locationID);
+            ViewData["bandID"] = new SelectList(_context.Band, "bandID", "bandName", concert.bandID);
             return View(concert);
         }
 
@@ -78,6 +85,8 @@ namespace INETAssignment1.Controllers
             {
                 return NotFound();
             }
+            ViewData["locationID"] = new SelectList(_context.Location, "locationID", "locationName", concert.locationID);
+            ViewData["bandID"] = new SelectList(_context.Band, "bandID", "bandName", concert.bandID);
             return View(concert);
         }
 
@@ -86,7 +95,7 @@ namespace INETAssignment1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("concertID,concertName,tourName,concertTime")] Concert concert)
+        public async Task<IActionResult> Edit(int id, [Bind("concertID,concertName,tourName,bandID,locationID,concertTime")] Concert concert)
         {
             if (id != concert.concertID)
             {
@@ -113,6 +122,8 @@ namespace INETAssignment1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["locationID"] = new SelectList(_context.Location, "locationID", "locationName", concert.locationID);
+            ViewData["bandID"] = new SelectList(_context.Band, "bandID", "bandName", concert.bandID);
             return View(concert);
         }
 
@@ -125,6 +136,8 @@ namespace INETAssignment1.Controllers
             }
 
             var concert = await _context.Concert
+                .Include(c => c.concertLocation)
+                .Include(c => c.headliningBand)
                 .FirstOrDefaultAsync(m => m.concertID == id);
             if (concert == null)
             {

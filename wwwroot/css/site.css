@@ -20,3 +20,25 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+:root {
+    --link-color: #b200e6; 
+    --link-hover: #8b0093; 
+}
+
+a, a:link, a:visited {
+    color: var(--link-color);
+}
+
+a:hover, a:focus, a:active {
+    color: var(--link-hover);
+    text-decoration: underline;
+}
+
+.btn-link,
+.navbar .nav-link,
+.card a,
+.table a,
+.dropdown-item {
+    color: var(--link-color);
+}

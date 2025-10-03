@@ -24,13 +24,13 @@ namespace INETAssignment1.Migrations
 
             modelBuilder.Entity("ConcertGenre", b =>
                 {
-                    b.Property<int>("concertGenresgenreID")
+                    b.Property<int>("GenresgenreID")
                         .HasColumnType("int");
 
                     b.Property<int>("concertsconcertID")
                         .HasColumnType("int");
 
-                    b.HasKey("concertGenresgenreID", "concertsconcertID");
+                    b.HasKey("GenresgenreID", "concertsconcertID");
 
                     b.HasIndex("concertsconcertID");
 
@@ -53,15 +53,10 @@ namespace INETAssignment1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("concertID")
-                        .HasColumnType("int");
-
                     b.Property<int>("genreID")
                         .HasColumnType("int");
 
                     b.HasKey("bandID");
-
-                    b.HasIndex("concertID");
 
                     b.HasIndex("genreID");
 
@@ -76,7 +71,7 @@ namespace INETAssignment1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("concertID"));
 
-                    b.Property<int?>("concertLocationlocationID")
+                    b.Property<int?>("bandID")
                         .HasColumnType("int");
 
                     b.Property<string>("concertName")
@@ -86,7 +81,7 @@ namespace INETAssignment1.Migrations
                     b.Property<DateTime>("concertTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("headliningBandbandID")
+                    b.Property<int?>("locationID")
                         .HasColumnType("int");
 
                     b.Property<string>("tourName")
@@ -95,9 +90,9 @@ namespace INETAssignment1.Migrations
 
                     b.HasKey("concertID");
 
-                    b.HasIndex("concertLocationlocationID");
+                    b.HasIndex("bandID");
 
-                    b.HasIndex("headliningBandbandID");
+                    b.HasIndex("locationID");
 
                     b.ToTable("Concert");
                 });
@@ -148,7 +143,7 @@ namespace INETAssignment1.Migrations
                 {
                     b.HasOne("INETAssignment1.Models.Genre", null)
                         .WithMany()
-                        .HasForeignKey("concertGenresgenreID")
+                        .HasForeignKey("GenresgenreID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -161,14 +156,10 @@ namespace INETAssignment1.Migrations
 
             modelBuilder.Entity("INETAssignment1.Models.Band", b =>
                 {
-                    b.HasOne("INETAssignment1.Models.Concert", null)
-                        .WithMany("supportingBands")
-                        .HasForeignKey("concertID");
-
                     b.HasOne("INETAssignment1.Models.Genre", "genre")
                         .WithMany("bands")
                         .HasForeignKey("genreID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("genre");
@@ -176,22 +167,24 @@ namespace INETAssignment1.Migrations
 
             modelBuilder.Entity("INETAssignment1.Models.Concert", b =>
                 {
+                    b.HasOne("INETAssignment1.Models.Band", "headliningBand")
+                        .WithMany("concerts")
+                        .HasForeignKey("bandID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("INETAssignment1.Models.Location", "concertLocation")
                         .WithMany("concerts")
-                        .HasForeignKey("concertLocationlocationID");
-
-                    b.HasOne("INETAssignment1.Models.Band", "headliningBand")
-                        .WithMany()
-                        .HasForeignKey("headliningBandbandID");
+                        .HasForeignKey("locationID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("concertLocation");
 
                     b.Navigation("headliningBand");
                 });
 
-            modelBuilder.Entity("INETAssignment1.Models.Concert", b =>
+            modelBuilder.Entity("INETAssignment1.Models.Band", b =>
                 {
-                    b.Navigation("supportingBands");
+                    b.Navigation("concerts");
                 });
 
             modelBuilder.Entity("INETAssignment1.Models.Genre", b =>

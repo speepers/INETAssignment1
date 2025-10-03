@@ -17,16 +17,16 @@
                 <input asp-for="bandName" class="form-control" />
                 <span asp-validation-for="bandName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group my-3">
                 <label asp-for="bandDescription" class="control-label"></label>
                 <input asp-for="bandDescription" class="form-control" />
                 <span asp-validation-for="bandDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="genreID" class="control-label"></label>
+            <div class="form-group my-3">
+                <label asp-for="genreID" class="control-label">Genre Name</label>
                 <select asp-for="genreID" class ="form-control" asp-items="ViewBag.genreID"></select>
             </div>
-            <div class="form-group">
+            <div class="form-group my-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

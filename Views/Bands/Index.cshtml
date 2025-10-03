@@ -4,12 +4,44 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<style>
+    .bands-table {
+        table-layout: fixed;
+        width: 100%;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+    .band-desc {
+        max-width: 550px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        white-space: normal;
+    }
+
+    .band-name {
+        width: 18%;
+    }
+
+    .genre-name {
+        width: 18%;
+    }
+
+    .actions {
+        width: 16%;
+        white-space: nowrap;
+    }
+</style>
+
+<h1>Bands</h1>
+
+<p><a asp-action="Create">Create New</a></p>
+
+<table class="table bands-table">
+    <colgroup>
+        <col class="band-name" />
+        <col style="width: auto;" />
+        <col class="genre-name" />
+        <col class="actions" />
+    </colgroup>
     <thead>
         <tr>
             <th>
@@ -25,23 +57,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.bandName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.bandDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.genre.genreID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.bandID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.bandID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.bandID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.bandName)
+                </td>
+                <td class="band-desc">
+                    @Html.DisplayFor(m => item.bandDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.genre.genreName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.bandID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.bandID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.bandID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

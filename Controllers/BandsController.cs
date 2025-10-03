@@ -48,7 +48,7 @@ namespace INETAssignment1.Controllers
         // GET: Bands/Create
         public IActionResult Create()
         {
-            ViewData["genreID"] = new SelectList(_context.Genre, "genreID", "genreID");
+            ViewData["genreID"] = new SelectList(_context.Genre, "genreID", "genreName");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace INETAssignment1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["genreID"] = new SelectList(_context.Genre, "genreID", "genreID", band.genreID);
+            ViewData["genreID"] = new SelectList(_context.Genre, "genreID", "genreName", band.genreID);
             return View(band);
         }
 
@@ -82,7 +82,7 @@ namespace INETAssignment1.Controllers
             {
                 return NotFound();
             }
-            ViewData["genreID"] = new SelectList(_context.Genre, "genreID", "genreID", band.genreID);
+            ViewData["genreID"] = new SelectList(_context.Genre, "genreID", "genreName", band.genreID);
             return View(band);
         }
 
@@ -118,7 +118,7 @@ namespace INETAssignment1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["genreID"] = new SelectList(_context.Genre, "genreID", "genreID", band.genreID);
+            ViewData["genreID"] = new SelectList(_context.Genre, "genreID", "genreName", band.genreID);
             return View(band);
         }
 

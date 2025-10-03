@@ -4,38 +4,70 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<style>
+    .genres-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .genre-desc {
+        max-width: 420px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        white-space: normal;
+    }
+
+    .genre-name {
+        width: 15%;
+    }
+
+    .actions {
+        width: 18%;
+        white-space: nowrap;
+    }
+</style>
+
+<h1>Genres</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.genreName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.genreDescription)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.genreName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.genreDescription)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.genreID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.genreID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.genreID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="table-responsive">
+    <table class="table genres-table">
+        <colgroup>
+            <col class="genre-name" />
+            <col style="width: auto;" />
+            <col class="actions" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.genreName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.genreDescription)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.genreName)
+                    </td>
+                    <td class="genre-desc">
+                        @Html.DisplayFor(m => item.genreDescription)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.genreID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.genreID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.genreID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
