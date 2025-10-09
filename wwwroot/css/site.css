@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 :root {
@@ -41,4 +41,20 @@ a:hover, a:focus, a:active {
 .table a,
 .dropdown-item {
     color: var(--link-color);
+}
+
+.thumbnail {
+    max-width: 220px;
+    max-height: 180px;
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.table,
+.table th,
+.table td {
+    border-color: #000000 !important;
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace INETAssignment1.Models
 {
@@ -25,5 +26,10 @@ namespace INETAssignment1.Models
 
         [Display(Name = "Concert Time")]
         public DateTime concertTime { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Photo")]
+        public IFormFile? FormFile { get; set; } // nullable!
+        public string filename { get; set; } = string.Empty;
     }
 }

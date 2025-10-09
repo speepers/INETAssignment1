@@ -59,13 +59,23 @@ namespace INETAssignment1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("concertID,concertName,tourName,bandID,locationID,concertTime")] Concert concert)
+        public async Task<IActionResult> Create([Bind("concertID,concertName,tourName,bandID,locationID,concertTime, FormFile")] Concert concert)
         {
             if (ModelState.IsValid)
             {
+                if (concert.FormFile != null)
+                {
+                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
+                    concert.filename = filename;
+                    string saveFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", filename);
+
+                    using (FileStream fileStream = new FileStream(saveFilePath, FileMode.Create)) {
+                        await concert.FormFile.CopyToAsync(fileStream);
+                    }
+                }
                 _context.Add(concert);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); 
             }
             ViewData["locationID"] = new SelectList(_context.Location, "locationID", "locationName", concert.locationID);
             ViewData["bandID"] = new SelectList(_context.Band, "bandID", "bandName", concert.bandID);
@@ -95,7 +105,7 @@ namespace INETAssignment1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("concertID,concertName,tourName,bandID,locationID,concertTime")] Concert concert)
+        public async Task<IActionResult> Edit(int id, [Bind("concertID,concertName,tourName,bandID,locationID,concertTime, FormFile")] Concert concert)
         {
             if (id != concert.concertID)
             {
@@ -104,6 +114,19 @@ namespace INETAssignment1.Controllers
 
             if (ModelState.IsValid)
             {
+
+                if (concert.FormFile != null)
+                {
+                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
+                    concert.filename = filename;
+                    string saveFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", filename);
+
+                    using (FileStream fileStream = new FileStream(saveFilePath, FileMode.Create))
+                    {
+                        await concert.FormFile.CopyToAsync(fileStream);
+                    }
+                }
+
                 try
                 {
                     _context.Update(concert);

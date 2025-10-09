@@ -9,9 +9,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-bordered">
     <thead>
         <tr>
+            <th>
+                Image
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.concertName)
             </th>
@@ -31,8 +34,19 @@
         </tr>
     </thead>
     <tbody>
+
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @if (!String.IsNullOrEmpty(item.filename))
+                {
+                    <img src="/photos/@item.filename" alt="@item.filename" class="thumbnail" />
+                }
+                else 
+                {
+                    <img src="/photos/placeholder-1-e1533569576673.webp" alt="@item.filename" class="thumbnail" />
+                }
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.concertName)
             </td>
@@ -46,7 +60,7 @@
                 @Html.DisplayFor(modelItem => item.concertLocation.locationName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.concertTime)
+                @(item.concertTime.ToString("MMMM d, yyyy, h:mm") + item.concertTime.ToString("tt").ToLower())
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.concertID">Edit</a> |

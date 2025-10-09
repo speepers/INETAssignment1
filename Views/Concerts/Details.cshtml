@@ -9,36 +9,48 @@
 <div>
     <h4>Concert</h4>
     <hr />
+    @if (!String.IsNullOrEmpty(Model.filename))
+    {
+        <div>
+            <img src="/photos/@Model.filename" alt="@Model.filename" class="w-50" />
+        </div>
+    }
+    else
+    {
+        <div>
+            <img src="/photos/placeholder-1-e1533569576673.webp" alt="@Model.filename" class="w-50 my-2" />
+        </div>
+    }
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-2 my-2">
             @Html.DisplayNameFor(model => model.concertName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 my-2">
             @Html.DisplayFor(model => model.concertName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2 my-2">
             @Html.DisplayNameFor(model => model.tourName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 my-2">
             @Html.DisplayFor(model => model.tourName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2 my-2">
             @Html.DisplayNameFor(model => model.headliningBand)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 my-2">
             @Html.DisplayFor(model => model.headliningBand.bandName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2 my-2">
             @Html.DisplayNameFor(model => model.concertLocation)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 my-2">
             @Html.DisplayFor(model => model.concertLocation.locationName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2 my-2">
             @Html.DisplayNameFor(model => model.concertTime)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.concertTime)
+        <dd class="col-sm-10 my-2">
+            @(Model.concertTime.ToString("MMMM d, yyyy, h:mm") + Model.concertTime.ToString("tt").ToLower())
         </dd>
     </dl>
 </div>

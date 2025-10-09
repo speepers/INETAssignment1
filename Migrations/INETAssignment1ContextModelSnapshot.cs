@@ -81,6 +81,10 @@ namespace INETAssignment1.Migrations
                     b.Property<DateTime>("concertTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("filename")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("locationID")
                         .HasColumnType("int");
 
