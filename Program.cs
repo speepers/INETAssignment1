@@ -1,12 +1,25 @@
+using INETAssignment1.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using INETAssignment1.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<INETAssignment1Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("INETAssignment1Context") ?? throw new InvalidOperationException("Connection string 'INETAssignment1Context' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// cookies authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true; // Reset the expiration time if the user is active
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+    });
 
 var app = builder.Build();
 
@@ -20,6 +33,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// authorization
+app.UseAuthentication();
 
 app.UseRouting();
 

@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using INETAssignment1.Data;
+using INETAssignment1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using INETAssignment1.Data;
-using INETAssignment1.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace INETAssignment1.Controllers
 {
+    [Authorize]
     public class LocationsController : Controller
     {
         private readonly INETAssignment1Context _context;
