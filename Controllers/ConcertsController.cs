@@ -1,4 +1,6 @@
-﻿using INETAssignment1.Data;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using INETAssignment1.Data;
 using INETAssignment1.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +16,18 @@ namespace INETAssignment1.Controllers
     [Authorize]
     public class ConcertsController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly INETAssignment1Context _context;
+        private readonly BlobContainerClient _containerClient;
 
-        public ConcertsController(INETAssignment1Context context)
+        public ConcertsController(IConfiguration configuration, INETAssignment1Context context)
         {
             _context = context;
+            _config = configuration;
+
+            var connectionString = _config.GetConnectionString("AzureStorage");
+            var containerName = "concerthub-photo-uploads";
+            _containerClient = new BlobContainerClient(connectionString, containerName);
         }
 
         // GET: Concerts
@@ -67,17 +76,29 @@ namespace INETAssignment1.Controllers
             {
                 if (concert.FormFile != null)
                 {
-                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
-                    concert.filename = filename;
-                    string saveFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", filename);
+                    //string filename = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
+                    //concert.filename = filename;
+                    //string saveFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", filename);
 
-                    using (FileStream fileStream = new FileStream(saveFilePath, FileMode.Create)) {
-                        await concert.FormFile.CopyToAsync(fileStream);
+                    //using (FileStream fileStream = new FileStream(saveFilePath, FileMode.Create)) {
+                    //    await concert.FormFile.CopyToAsync(fileStream);
+                    //}
+
+                    string blobName = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
+                    IFormFile fileUpload = concert.FormFile;
+                    var blobClient = _containerClient.GetBlobClient(blobName);
+
+                    using (var stream = fileUpload.OpenReadStream())
+                    {
+                        await blobClient.UploadAsync(stream, new BlobHttpHeaders { ContentType = fileUpload.ContentType });
                     }
+
+                    string blobURL = blobClient.Uri.ToString();
+                    concert.filename = blobURL;
                 }
                 _context.Add(concert);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index)); 
+                return RedirectToAction(nameof(Index));
             }
             ViewData["locationID"] = new SelectList(_context.Location, "locationID", "locationName", concert.locationID);
             ViewData["bandID"] = new SelectList(_context.Band, "bandID", "bandName", concert.bandID);
@@ -119,14 +140,17 @@ namespace INETAssignment1.Controllers
 
                 if (concert.FormFile != null)
                 {
-                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
-                    concert.filename = filename;
-                    string saveFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", filename);
+                    string blobName = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
+                    IFormFile fileUpload = concert.FormFile;
+                    var blobClient = _containerClient.GetBlobClient(blobName);
 
-                    using (FileStream fileStream = new FileStream(saveFilePath, FileMode.Create))
+                    using (var stream = fileUpload.OpenReadStream())
                     {
-                        await concert.FormFile.CopyToAsync(fileStream);
+                        await blobClient.UploadAsync(stream, new BlobHttpHeaders { ContentType = fileUpload.ContentType });
                     }
+
+                    string blobURL = blobClient.Uri.ToString();
+                    concert.filename = blobURL;
                 }
 
                 try
