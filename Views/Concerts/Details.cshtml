@@ -12,13 +12,13 @@
     @if (!String.IsNullOrEmpty(Model.filename))
     {
         <div>
-            <img src="@Model.filename" alt="@Model.filename" class="w-50" />
+            <img src="/photos/@Model.filename" alt="@Model.filename" class="w-50" />
         </div>
     }
     else
     {
         <div>
-            <img src="https://nscc0513060storageblob.blob.core.windows.net/concerthub-photo-uploads/placeholder-1-e1533569576673.webp" alt="@Model.filename" class="w-50 my-2" />
+            <img src="/photos/placeholder-1-e1533569576673.webp" alt="@Model.filename" class="w-50 my-2" />
         </div>
     }
     <dl class="row">
