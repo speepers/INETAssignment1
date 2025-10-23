@@ -7,6 +7,13 @@ namespace INETAssignment1.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IConfiguration _configuration;
+
+        public AccountController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public IActionResult Login()
         {
             return View();
@@ -16,7 +23,7 @@ namespace INETAssignment1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string username, string password, string? returnUrl)
         {
-            if (username == "admin" && password == "admin123")
+            if (username == _configuration["tickets_username"] && password == _configuration["tickets_password"])
             {
                 var claims = new List<Claim>
                 {
