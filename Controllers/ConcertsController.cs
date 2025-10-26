@@ -25,7 +25,7 @@ namespace INETAssignment1.Controllers
             _context = context;
             _config = configuration;
 
-            var connectionString = _config["AzureStorage"];
+            var connectionString = _config.GetConnectionString("AzureStorage") ?? _config["AzureStorage"];
             var containerName = "concerthub-photo-uploads";
             _containerClient = new BlobContainerClient(connectionString, containerName);
         }
