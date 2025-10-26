@@ -25,7 +25,7 @@ namespace INETAssignment1.Controllers
             _context = context;
             _config = configuration;
 
-            var connectionString = _config.GetConnectionString("AzureStorage");
+            var connectionString = _config["AzureStorage"];
             var containerName = "concerthub-photo-uploads";
             _containerClient = new BlobContainerClient(connectionString, containerName);
         }
@@ -76,14 +76,6 @@ namespace INETAssignment1.Controllers
             {
                 if (concert.FormFile != null)
                 {
-                    //string filename = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
-                    //concert.filename = filename;
-                    //string saveFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", filename);
-
-                    //using (FileStream fileStream = new FileStream(saveFilePath, FileMode.Create)) {
-                    //    await concert.FormFile.CopyToAsync(fileStream);
-                    //}
-
                     string blobName = Guid.NewGuid().ToString() + Path.GetExtension(concert.FormFile.FileName);
                     IFormFile fileUpload = concert.FormFile;
                     var blobClient = _containerClient.GetBlobClient(blobName);
