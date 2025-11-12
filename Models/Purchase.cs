@@ -17,7 +17,7 @@ namespace INETAssignment1.Models
         [Display(Name = "Customer Email")]
         public string customerEmail { get; set; } = string.Empty;
         [Display(Name = "Credit Card Number")]
-        public int creditCardNumber { get; set; }
+        public string creditCardNumber { get; set; } = string.Empty;
         [Display(Name = "CVV")]
         public int CVV { get; set; }
         [Display(Name = "Expiry Date")]

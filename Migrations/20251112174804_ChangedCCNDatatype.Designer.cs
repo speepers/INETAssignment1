@@ -4,6 +4,7 @@ using INETAssignment1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace INETAssignment1.Migrations
 {
     [DbContext(typeof(INETAssignment1Context))]
-    partial class INETAssignment1ContextModelSnapshot : ModelSnapshot
+    [Migration("20251112174804_ChangedCCNDatatype")]
+    partial class ChangedCCNDatatype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
