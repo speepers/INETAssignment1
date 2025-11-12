@@ -59,11 +59,6 @@ else
                     <td>@item.creditCardNumber</td>
                     <td>@item.CVV</td>
                     <td>@item.expiryDate.ToString("yyyy-MM")</td>
-                    <td>
-                        <a asp-controller="Purchases" asp-action="Details" asp-route-id="@item.purchaseID">Details</a> |
-                        <a asp-controller="Purchases" asp-action="Edit" asp-route-id="@item.purchaseID">Edit</a> |
-                        <a asp-controller="Purchases" asp-action="Delete" asp-route-id="@item.purchaseID">Delete</a>
-                    </td>
                 </tr>
             }
         </tbody>
