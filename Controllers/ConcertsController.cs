@@ -188,6 +188,17 @@ namespace INETAssignment1.Controllers
             return View(concert);
         }
 
+        // GET Purchased Tickets
+        public async Task<IActionResult> Tickets(int? id, Concert concert)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            return View(concert);
+        }
+
         // POST: Concerts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
