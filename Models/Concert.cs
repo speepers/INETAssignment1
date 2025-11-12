@@ -31,5 +31,6 @@ namespace INETAssignment1.Models
         [Display(Name = "Photo")]
         public IFormFile? FormFile { get; set; } // nullable!
         public string filename { get; set; } = string.Empty;
+        public ICollection<Purchase>? Purchases { get; set; }
     }
 }

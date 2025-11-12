@@ -4,8 +4,10 @@ namespace INETAssignment1.Models
 {
     public class Purchase
     {
-        public int PurchaseID { get; set; } //PK
-        public Concert? concertID { get; set; } //FK
+        public int purchaseID { get; set; } //PK
+        public Concert? Concert { get; set; } //FK
+        [Display(Name = "Concert")]
+        public int concertID { get; set; }
         [Display(Name = "Number of Tickets Ordered")]
         public int ticketsOrdered { get; set; }
         [Display(Name = "Order Date")]

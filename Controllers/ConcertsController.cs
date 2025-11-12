@@ -188,16 +188,30 @@ namespace INETAssignment1.Controllers
             return View(concert);
         }
 
-        // GET Purchased Tickets
-        public async Task<IActionResult> Tickets(int? id, Concert concert)
+        // GET: Concerts/Tickets/5
+        public async Task<IActionResult> Tickets(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            return View(concert);
+            var concert = await _context.Concert
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.concertID == id.Value);
+
+            if (concert == null)
+                return NotFound();
+
+            var purchases = await _context.Purchase
+                .AsNoTracking()
+                .Where(p => p.concertID == id.Value)
+                .OrderByDescending(p => p.orderDate)
+                .ToListAsync();
+
+            ViewData["ConcertTitle"] = concert?.concertName == null ? "" : null;
+
+            return View(purchases);
         }
+
 
         // POST: Concerts/Delete/5
         [HttpPost, ActionName("Delete")]

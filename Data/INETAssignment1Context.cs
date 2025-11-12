@@ -17,6 +17,7 @@ namespace INETAssignment1.Data
         public DbSet<INETAssignment1.Models.Band> Band { get; set; } = default!;
         public DbSet<INETAssignment1.Models.Genre> Genre { get; set; } = default!;
         public DbSet<INETAssignment1.Models.Location> Location { get; set; } = default!;
+        public DbSet<INETAssignment1.Models.Purchase> Purchase { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,6 +44,12 @@ namespace INETAssignment1.Data
                 .WithMany(l => l.concerts)
                 .HasForeignKey(c => c.locationID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Purchase>()
+                .HasOne(p => p.Concert)
+                .WithMany(c => c.Purchases)
+                .HasForeignKey(p => p.concertID)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
